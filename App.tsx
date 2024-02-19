@@ -6,7 +6,6 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon } from 'react-native-vector-icons'
 
 function Feed() {
     return (
@@ -87,7 +86,7 @@ function BottomTabs() {
     );
 }
 
-function TopTabs() {
+function IntegratedTabs() {
     return (
         <TopTab.Navigator>
             <TopTab.Screen name="Feed" component={Feed} />
@@ -102,8 +101,8 @@ function App() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name="BottomTabs"
-                    component={BottomTabs}
+                    name="IntegratedTabs"
+                    component={IntegratedTabs}
                     options={({ navigation }) => ({
                         title: 'Aussie Simplify',
                         headerLeft: () => (
@@ -117,7 +116,6 @@ function App() {
                         ),
                     })}
                 />
-                <Stack.Screen name="TopTabs" component={TopTabs} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
             </Stack.Navigator>
         </NavigationContainer>
