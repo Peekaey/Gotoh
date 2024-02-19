@@ -2,10 +2,12 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+const Drawer = createDrawerNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 function Feed() {
     return (
@@ -31,61 +33,6 @@ function Notifications() {
     );
 }
 
-function SettingsScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings!</Text>
-            {/* Add your settings content here */}
-        </View>
-    );
-}
-
-const BottomTab = createMaterialBottomTabNavigator();
-const TopTab = createMaterialTopTabNavigator();
-const Stack = createStackNavigator();
-
-function BottomTabs() {
-    return (
-        <BottomTab.Navigator
-            initialRouteName="Feed"
-            activeColor="#e91e63"
-            labelStyle={{ fontSize: 12 }}
-            style={{ backgroundColor: 'tomato' }}
-        >
-            <BottomTab.Screen
-                name="Feed"
-                component={Feed}
-                options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="home" color={color} size={26} />
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                name="Notifications"
-                component={Notifications}
-                options={{
-                    tabBarLabel: 'Updates',
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="bell" color={color} size={26} />
-                    ),
-                }}
-            />
-            <BottomTab.Screen
-                name="Profile"
-                component={Profile}
-                options={{
-                    tabBarLabel: 'Profile',
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="account" color={color} size={26} />
-                    ),
-                }}
-            />
-        </BottomTab.Navigator>
-    );
-}
-
 function IntegratedTabs() {
     return (
         <TopTab.Navigator>
@@ -99,14 +46,14 @@ function IntegratedTabs() {
 function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
+            <Drawer.Navigator initialRouteName="IntegratedTabs">
+                <Drawer.Screen
                     name="IntegratedTabs"
                     component={IntegratedTabs}
                     options={({ navigation }) => ({
                         title: 'Aussie Simplify',
                         headerLeft: () => (
-                            <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+                            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
                                 <MaterialCommunityIcons
                                     name="menu"
                                     size={24}
@@ -116,8 +63,7 @@ function App() {
                         ),
                     })}
                 />
-                <Stack.Screen name="Settings" component={SettingsScreen} />
-            </Stack.Navigator>
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 }
