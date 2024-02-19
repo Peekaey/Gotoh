@@ -5,8 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon } from 'react-native-vector-icons'
 
 function Feed() {
     return (
@@ -41,6 +41,7 @@ function SettingsScreen({ navigation }) {
     );
 }
 
+const Drawer = createDrawerNavigator();
 const BottomTab = createMaterialBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -100,14 +101,14 @@ function TopTabs() {
 function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
+            <Drawer.Navigator initialRouteName="BottomTabs">
+                <Drawer.Screen
                     name="BottomTabs"
                     component={BottomTabs}
                     options={({ navigation }) => ({
                         title: 'Aussie Simplify',
                         headerLeft: () => (
-                            <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+                            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
                                 <MaterialCommunityIcons
                                     name="menu"
                                     size={24}
@@ -117,9 +118,17 @@ function App() {
                         ),
                     })}
                 />
-                <Stack.Screen name="TopTabs" component={TopTabs} />
-                <Stack.Screen name="Settings" component={SettingsScreen} />
-            </Stack.Navigator>
+                <Drawer.Screen
+                    name="TopTabs"
+                    component={TopTabs}
+                    options={{ title: 'Top Tabs' }}
+                />
+                <Drawer.Screen
+                    name="Settings"
+                    component={SettingsScreen}
+                    options={{ title: 'Settings' }}
+                />
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 }
